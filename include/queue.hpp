@@ -73,14 +73,16 @@ public:
 		return tail;
 	}
 
-	queue_t<T> & operator =(queue_t<T> & other) {
-		if (other.head) {
-			this->~queue_t();
-		}
-		node_t * p = other.heads();
-		while (p) {
-			push(p->value);
-			p = p->next;
+	queue_t & operator =(queue_t const & other) {
+		if (other.head != head) {
+			if (other.head) {
+				this->~queue_t();
+			}
+			node_t * p = other.head;
+			while (p) {
+				push(p->value);
+				p = p->next;
+			}
 		}
 		return *this;
 	}
