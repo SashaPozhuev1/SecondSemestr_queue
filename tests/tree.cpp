@@ -1,116 +1,72 @@
 #include <catch.hpp>
 #include <sstream>
+#include <cassert>
 
-#include "tree.hpp"
+#include "queue.hpp"
 
-TEST_CASE("creating tree")
+TEST_CASE("creating queue")
 {
-	tree_t<int> tree;
-	REQUIRE( tree.root() == nullptr );
+	queue_t<int> queue;
+	REQUIRE( queue.heads() == nullptr &&
+	         queue.tails() == nullptr);
 }
 
-TEST_CASE("insert and print tree")
+TEST_CASE("push queue")
 {
-	std::string input{
-		"        ----9\n"
-		"                ----8\n"
-		"            ----7\n"
-		"    ----7\n"
-		"        ----6\n"
-		"----5\n"
-		"        ----4\n"
-		"    ----4\n"
-		"        ----3\n"};
+	std::string input{ "1 2 3 \n" };
 	
-	tree_t<int> tree { 5, 7, 4, 6, 9, 7, 8, 3, 4 };
+	tree_t<int> queue;
+	queue.push(1);
+	queue.push(2);
+	queue.push(3);
 	
 	std::ostringstream ostream;
-	tree.print(ostream);
+	queue.print(ostream);
 	REQUIRE( input == ostream.str() );
 }
 
-TEST_CASE("find tree")
+
+TEST_CASE("pop queue")
 {
-	tree_t<int> tree;
+	tree_t<double> queue;
+	queue.push(1.1);
+	queue.push(2.2);
+	queue.push(3.3);
 	
-	tree.insert(5);
-	tree.insert(7);
-	tree.insert(4);
-	
-	REQUIRE( tree.find(5) == true );
-	REQUIRE( tree.find(7) == true );
-	REQUIRE( tree.find(0) == false );
+	REQUIRE( queue.pop() == 1.1 );
+	REQUIRE( queue.pop() == 2.2 );
+	REQUIRE( queue.pop() == 3.3 );
 }
 
-TEST_CASE("remove tree")
+TEST_CASE("error queue")
 {
-	tree_t<int> tree { 5, 7, 4 };
+	tree_t<double> queue;
+	queue.push(1.1);
+	queue.push(2.2);
+	queue.push(3.3);
 	
-	REQUIRE( tree.remove(6) == false );
-	REQUIRE( tree.remove(7) == true );
-	REQUIRE( tree.remove(5) == true );
-	REQUIRE( tree.remove(4) == true );
+	queue.pop();
+	queue.pop();
+	queue.pop();
+	
+	 REQUIRE_THROWS_AS( queue.pop(), std::logic_error );
 }
 
-TEST_CASE("compare tree")
+TEST_CASE(" = queue")
 {
-	tree_t<int> A { 5, 7, 4 };
-	tree_t<int> B { 5, 7, 4 };
-	tree_t<int> C { 5, 7, 4, 4 };
+	std::string input{ "1 2 3 \n" };
+	tree_t<double> queue1;
+	tree_t<double> queue2;
 	
-	REQUIRE( (A == B) == true );
-	REQUIRE( (C == B) == false );
-}
-
-TEST_CASE("read tree")
-{
-	tree_t<double> tree;
+	queue1.push(1);
+	queue1.push(2);
+	queue1.push(3);
 	
-	bool success = true;
-	for(std::size_t i = 0; i < 5; ++i) {
-		if (i == 0) {
-			std::string input{"+9.8"};
-			
-			std::istringstream istream(input);
-			std::ostringstream ostream;
-		
-			success = tree.read(istream, ostream);
-			REQUIRE( success == true );
-		}
-		else if (i == 1) {
-			std::string input{"="};
-			std::string output{"----9.8\n"};
-			std::istringstream istream(input);
-			std::ostringstream ostream;
-		
-			success = tree.read(istream, ostream);
-			REQUIRE( success == true );
-			REQUIRE( output == ostream.str() );
-		}
-		else if (i == 2) {
-			std::string input{"?1"};
-			std::string output{"false"};
-			std::istringstream istream(input);
-			std::ostringstream ostream;
-			
-			success = tree.read(istream, ostream);
-			REQUIRE( success == true );
-		}
-		else if (i == 3) {
-			std::string input{"d"};
-			std::istringstream istream(input);
-			std::ostringstream ostream;
-		
-			success = tree.read(istream, ostream);
-			REQUIRE( success == true );
-		}
-		else if (i == 4) {
-			std::string input{"q"};
-			std::istringstream istream(input);
-			std::ostringstream ostream;
-		
-			success = tree.read(istream, ostream);
-			REQUIRE( success == false );
-		}
-	}
+	queue2.push(3);
+	
+	queue2 = queue1;
+	
+	std::ostringstream ostream;
+	queue2.print(ostream);
+	REQUIRE( input == ostream.str() );
 }
