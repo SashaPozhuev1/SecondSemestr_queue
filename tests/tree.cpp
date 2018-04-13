@@ -7,8 +7,8 @@
 TEST_CASE("creating queue")
 {
 	queue_t<int> queue;
-	REQUIRE( queue.heads() == nullptr &&
-	         queue.tails() == nullptr);
+	REQUIRE( queue.heads() == nullptr);
+	REQUIRE( queue.tails() == nullptr);
 }
 
 TEST_CASE("push queue")
