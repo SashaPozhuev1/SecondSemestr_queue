@@ -79,8 +79,9 @@ public:
 	void print(std::ostream & ostream) {
 		node_t * p = head;
 		while (p) {
-			ostream << p->value << '\n';
+			ostream << p->value << ' ';
 			p = p->next;
 		}
+		ostream << '\n';
 	}
 };
