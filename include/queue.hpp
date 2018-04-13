@@ -60,6 +60,9 @@ public:
 	node_t * heads() {
 		return head;
 	}
+	node_t * tails() {
+		return tail;
+	}
 
 	queue_t<T> & operator =(queue_t<T> & other) {
 		if (other.head) {
