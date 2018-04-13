@@ -16,7 +16,16 @@ public:
 		head = nullptr;
 		tail = nullptr;
 	}
+	
+	queue_t(queue_t<T> const & other) : queue_t()
+	{
+		for (auto it = other.head_; it; it = it->next)
+		{
+			push(it->value);
+		}
 
+	}
+	
 	~queue_t() {
 		while (head) {
 			node_t * p = head;
