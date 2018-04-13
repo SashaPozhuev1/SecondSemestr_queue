@@ -15,7 +15,7 @@ TEST_CASE("push queue")
 {
 	std::string input{ "1 2 3 \n" };
 	
-	tree_t<int> queue;
+	queue_t<int> queue;
 	queue.push(1);
 	queue.push(2);
 	queue.push(3);
@@ -28,7 +28,7 @@ TEST_CASE("push queue")
 
 TEST_CASE("pop queue")
 {
-	tree_t<double> queue;
+	queue_t<double> queue;
 	queue.push(1.1);
 	queue.push(2.2);
 	queue.push(3.3);
@@ -40,7 +40,7 @@ TEST_CASE("pop queue")
 
 TEST_CASE("error queue")
 {
-	tree_t<double> queue;
+	queue_t<double> queue;
 	queue.push(1.1);
 	queue.push(2.2);
 	queue.push(3.3);
@@ -55,8 +55,8 @@ TEST_CASE("error queue")
 TEST_CASE(" = queue")
 {
 	std::string input{ "1 2 3 \n" };
-	tree_t<double> queue1;
-	tree_t<double> queue2;
+	queue_t<double> queue1;
+	queue_t<double> queue2;
 	
 	queue1.push(1);
 	queue1.push(2);
